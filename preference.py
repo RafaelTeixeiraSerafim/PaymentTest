@@ -11,6 +11,7 @@ preference_data = {
             "id": "1",
             "title": "Stardew Valley",
             "currency_id": "BRL",
+            "quantity": 1,
             "unit_price": 24.99
         }
     ]
@@ -18,3 +19,4 @@ preference_data = {
 
 preference_response = sdk.preference().create(preference_data)
 preference = preference_response["response"]
+print(preference)
