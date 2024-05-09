@@ -1,32 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <title>PaymentTest</title>
-</head>
-<body>
-    <h1>Teste da API de pagamento</h1>
-
-    <div id="wallet_container"></div>
-
-    
-    // SDK MercadoPago.js
-    <script>
-        const mp = new MercadoPago('TEST-e0537e9c-937c-47b8-bc72-b99d32583826');
-        const bricksBuilder = mp.bricks();
-        
-        mp.bricks().create("wallet", "wallet_container", {
-            initialization: {
-                preferenceId: "1",
-            },
-            customization: {
-                texts: {
-                    valueProp: 'smart_option',
-                },
-            },
-        });
-    </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
