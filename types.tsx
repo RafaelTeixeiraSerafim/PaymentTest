@@ -1,7 +1,11 @@
-export interface Product {
-    id: string,
+export interface OriginalProduct {
+    id: number,
     title: string,
-    currency_id: string,
-    quantity: number,
-    unit_price: number
+    price: number
+}
+
+export interface SimpleProduct {
+    id: number,
+    title: string,
+    price: string
 }

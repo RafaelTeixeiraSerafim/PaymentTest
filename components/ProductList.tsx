@@ -1,12 +1,29 @@
 import React from "react"
-import { Product } from '../types.tsx'
+import { OriginalProduct } from '../types.tsx'
+import axios from "axios"
 
 export interface ProductListProps {
-    products: Product[]
+    products: OriginalProduct[],
+    updateProduct: (product: OriginalProduct) => void,
+    updateCallback: () => void
 }
 
-export default function ProductList({ products }: ProductListProps) {
-    console.log(products)
+export default function ProductList({ products, updateProduct, updateCallback }: ProductListProps) {
+    const onDelete = async (id: number) => {
+        axios.delete(`http://localhost:5000/product/${id}`).then((response) => {
+            console.log(response);
+            updateCallback()
+
+            alert(`Produto deletado com sucesso.`)
+            return
+        }).catch((error) => {
+            console.log(error);
+
+            alert(`${error.response.data}. \n\nTente novamente.`)
+            return
+        });
+    }
+
     return (
         <div>
             <h1>Product List</h1>
@@ -24,10 +41,11 @@ export default function ProductList({ products }: ProductListProps) {
                         <tr key={product.id}>
                             <td>{product.id}</td>
                             <td>{product.title}</td>
-                            <td>{product.unit_price}</td>
+                            <td>{product.price}</td>
                             <td>
-                                <button>Update</button>
-                                <button>Delete</button>
+                                <button onClick={() => updateProduct(product)}>Update</button>
+                                <button onClick={() => onDelete(product.id)}>Delete</button>
+                                <button>Add to Cart</button>
                             </td>
                         </tr>
                     ))}
