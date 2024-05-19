@@ -50,14 +50,12 @@ export default function ProductForm({ existingProduct = { id: 0, title: "", pric
 
                 setSubmitMessage("")
                 alert(`Produto ${isUpdating ? 'alterado' : 'criado'} com sucesso.`)
-                return
             })
             .catch((error) => {
                 console.log(error);
 
                 setSubmitMessage("")
                 alert(`${error.response.data}. \n\nTente novamente.`)
-                return
             });
 
     }

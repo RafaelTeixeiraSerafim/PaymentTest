@@ -4,23 +4,41 @@ import axios from "axios"
 
 export interface ProductListProps {
     products: OriginalProduct[],
-    updateProduct: (product: OriginalProduct) => void,
+    onUpdate: (product: OriginalProduct) => void,
     updateCallback: () => void
 }
 
-export default function ProductList({ products, updateProduct, updateCallback }: ProductListProps) {
-    const onDelete = async (id: number) => {
+export default function ProductList({ products, onUpdate, updateCallback }: ProductListProps) {
+    const onDelete = (id: number) => {
         axios.delete(`http://localhost:5000/product/${id}`).then((response) => {
             console.log(response);
             updateCallback()
 
             alert(`Produto deletado com sucesso.`)
-            return
         }).catch((error) => {
             console.log(error);
 
             alert(`${error.response.data}. \n\nTente novamente.`)
-            return
+        });
+    }
+
+    const onBuy = (product: OriginalProduct) => {
+        axios.post('http://localhost:5000/carts', {
+            productList: [{
+                id: product.id.toString(),
+                title: product.title,
+                currency_id: "BRL",
+                quantity: 1,
+                unit_price: product.price
+            }]
+        }).then((response) => {
+            console.log(response);
+
+            window.location.href = response.data;
+        }).catch((error) => {
+            console.log(error);
+
+            alert(`${error.response.data}. \n\nTente novamente.`)
         });
     }
 
@@ -43,9 +61,9 @@ export default function ProductList({ products, updateProduct, updateCallback }:
                             <td>{product.title}</td>
                             <td>{product.price}</td>
                             <td>
-                                <button onClick={() => updateProduct(product)}>Update</button>
+                                <button onClick={() => onUpdate(product)}>Update</button>
                                 <button onClick={() => onDelete(product.id)}>Delete</button>
-                                <button>Add to Cart</button>
+                                <button onClick={() => onBuy(product)}>Buy</button>
                             </td>
                         </tr>
                     ))}

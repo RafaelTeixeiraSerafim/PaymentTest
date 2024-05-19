@@ -3,6 +3,7 @@ import { OriginalProduct } from '../types.tsx'
 import ProductList from '../components/ProductList.tsx'
 import ProductForm from '../components/ProductForm.tsx'
 import Modal from '../components/Modal.tsx'
+import axios from 'axios'
 
 interface Products {
   productList: OriginalProduct[]
@@ -17,12 +18,12 @@ function App() {
     price: 0
   })
 
-  async function fetchProducts() {
-    const response = await fetch("http://localhost:5000/products")
-    const jsonResponse = await response.json()
-
-    setProducts(jsonResponse)
-    console.log(jsonResponse)
+  const fetchProducts = () => {
+    axios.get("http://localhost:5000/products").then((response) => {
+      setProducts(response.data)
+    }).catch((error) => {
+      console.error(error)
+    })
   }
 
   useEffect(() => {
@@ -56,7 +57,7 @@ function App() {
 
   return (
     <>
-      <ProductList products={products.productList} updateProduct={openUpdateModal} updateCallback={onUpdate} />
+      <ProductList products={products.productList} onUpdate={openUpdateModal} updateCallback={onUpdate} />
       <button onClick={openModal}>Create Product</button>
 
       {isModalOpen && <Modal closeModal={closeModal}>
